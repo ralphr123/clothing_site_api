@@ -1,61 +1,34 @@
 const express = require('express');
 const {MongoClient} = require('mongodb');
-// const mongoose = require('mongoose');
-// const models = require('./Models/index.js');
 
 const uri = 'mongodb+srv://admin:arJLg1hAduyXt3wI@clothingsite.b0csd.mongodb.net/siteData?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-// connectDb;
-var productData = [];
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });   
-async function main(){    
-    try {
-        await client.connect();
-        productData = await client.db("siteData").collection("products").find().toArray();
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
-}
 
 app.get('/', (req, res) => {
-    res.send("hello there babay lolzies");
+    res.send("This works");
 });
 
-app.get('/apparel', (req, res) => {
-    let apparelData = productData.filter(doc => doc.productType === "apparel");
+async function connecter() {
+    await client.connect();
+}
+connecter();
 
-    res.send(apparelData);
+async function printData(res, type) {
+    try {
+        let productData = await client.db("siteData").collection("products").find({ productType: type }).toArray();
+        console.log(productData);
+        res.send(productData);
+    } catch (e) {
+        console.error(e);
+    }
+}
+app.get('/:productType', (req, res) => {
+    printData(res, req.params.productType.replace('/', ''));
 });
 
-app.get('/shoes', (req, res) => {
-    let shoeData = productData.filter(doc => doc.productType === "shoes");
-
-    res.send(shoeData);
-});
-
-app.get('/accessories', (req, res) => {
-    let accessoryData = productData.filter(doc => doc.productType === "accessories");
-
-    res.send(accessoryData);
-});
-
-app.get('/collections', (req, res) => {
-    let collectionData = productData.filter(doc => doc.productType === "collections");
-
-    res.send(collectionData);
-});
-
-app.get('/lifestyle', (req, res) => {
-    let lifestyleData = productData.filter(doc => doc.productType === "lifestyle");
-
-    res.send(lifestyleData);
-});
-
-main().catch(console.error);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
