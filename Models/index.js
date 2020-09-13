@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
  
-import Product from './product.js';
-import TeamMember from './team_member.js';
+const Product = require('./product.js');
+const TeamMember = require('./team_member.js');
 
 const connectDb = () => {
     let uri = 'mongodb+srv://admin:arJLg1hAduyXt3wI@clothingsite.b0csd.mongodb.net/siteData?retryWrites=true&w=majority';

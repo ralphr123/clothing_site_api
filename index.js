@@ -1,12 +1,11 @@
-import express from 'express';
-import * as mongodb from 'mongodb'
-// import mongoose from 'mongoose';
-// import models, { connectDb } from './Models/index.js';
+const express = require('express');
+const {MongoClient} = require('mongodb');
+// const mongoose = require('mongoose');
+// const models = require('./Models/index.js');
 
 const uri = 'mongodb+srv://admin:arJLg1hAduyXt3wI@clothingsite.b0csd.mongodb.net/siteData?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 4000;
 const app = express();
-const MongoClient = mongodb.default.MongoClient;
 
 // connectDb;
 
