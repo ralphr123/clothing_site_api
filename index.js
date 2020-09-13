@@ -11,17 +11,19 @@ app.get('/', (req, res) => {
     res.send("This works");
 });
 
-client.connect(err => {
-    async function printData(res, type) {
-        try {
-            let productData = await client.db("siteData").collection("products").find({ productType: type }).toArray();
-            res.send(productData);
-        } catch (e) {
-            console.error(e);
-        }
+async function printData(res, type) {
+    try {
+        let productData = await client.db("siteData").collection("products").find({ productType: type }).toArray();
+        res.send(productData);
+    } catch (e) {
+        console.error(e);
     }
+}
+client.connect(err => {
     app.get('/:productType', (req, res) => {
-        printData(res, req.params.productType);
+        printData(res, req.params.productType).catch(e => {
+            console.log(e);
+        });
     });
 });
 
