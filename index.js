@@ -18,8 +18,11 @@ connecter();
 
 async function printData(res, type) {
     try {
+        console.log(1);
         let productData = await client.db("siteData").collection("products").find({ productType: type }).toArray();
+        console.log(2);
         res.send(productData);
+        console.log(3);
     } catch (e) {
         console.error(e);
     }
