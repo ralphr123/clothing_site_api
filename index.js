@@ -19,14 +19,13 @@ connecter();
 async function printData(res, type) {
     try {
         let productData = await client.db("siteData").collection("products").find({ productType: type }).toArray();
-        console.log(productData);
         res.send(productData);
     } catch (e) {
         console.error(e);
     }
 }
 app.get('/:productType', (req, res) => {
-    printData(res, req.params.productType.replace('/', ''));
+    printData(res, req.params.productType);
 });
 
 
