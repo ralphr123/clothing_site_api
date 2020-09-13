@@ -15,10 +15,6 @@ async function main(){
         await client.connect();
 
         let productData = await client.db("siteData").collection("products").find().toArray();
-
-        app.get('/', (req, res) => {
-            res.send(productData);
-        });
         
         app.get('/apparel', (req, res) => {
             let apparelData = productData.filter(doc => doc.productType === "apparel");
@@ -56,6 +52,10 @@ async function main(){
         await client.close();
     }
 }
+
+app.get('/', (req, res) => {
+    res.send("hello there babay lolzies");
+});
 
 main().catch(console.error);
 
