@@ -8,52 +8,48 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 
 // connectDb;
-var productData;
+var productData = [];
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });   
 async function main(){    
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });   
-    try {
-        await client.connect();
-        productData = await client.db("siteData").collection("products").find().toArray();
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
+    await client.connect();
+    productData = await client.db("siteData").collection("products").find().toArray();
+    
+    app.get('/apparel', (req, res) => {
+        let apparelData = productData.filter(doc => doc.productType === "apparel");
+    
+        res.send(apparelData);
+    });
+    
+    app.get('/shoes', (req, res) => {
+        let shoeData = productData.filter(doc => doc.productType === "shoes");
+    
+        res.send(shoeData);
+    });
+    
+    app.get('/accessories', (req, res) => {
+        let accessoryData = productData.filter(doc => doc.productType === "accessories");
+    
+        res.send(accessoryData);
+    });
+    
+    app.get('/collections', (req, res) => {
+        let collectionData = productData.filter(doc => doc.productType === "collections");
+    
+        res.send(collectionData);
+    });
+    
+    app.get('/lifestyle', (req, res) => {
+        let lifestyleData = productData.filter(doc => doc.productType === "lifestyle");
+    
+        res.send(lifestyleData);
+    });
 }
 
 app.get('/', (req, res) => {
     res.send("hello there babay lolzies");
 });
 
-app.get('/apparel', (req, res) => {
-    let apparelData = productData.filter(doc => doc.productType === "apparel");
 
-    res.send(apparelData);
-});
-
-app.get('/shoes', (req, res) => {
-    let shoeData = productData.filter(doc => doc.productType === "shoes");
-
-    res.send(shoeData);
-});
-
-app.get('/accessories', (req, res) => {
-    let accessoryData = productData.filter(doc => doc.productType === "accessories");
-
-    res.send(accessoryData);
-});
-
-app.get('/collections', (req, res) => {
-    let collectionData = productData.filter(doc => doc.productType === "collections");
-
-    res.send(collectionData);
-});
-
-app.get('/lifestyle', (req, res) => {
-    let lifestyleData = productData.filter(doc => doc.productType === "lifestyle");
-
-    res.send(lifestyleData);
-});
 
 main().catch(console.error);
 
