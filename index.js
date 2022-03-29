@@ -1,7 +1,7 @@
 const express = require('express');
 const {MongoClient} = require('mongodb');
 
-const uri = 'mongodb+srv://admin:arJLg1hAduyXt3wI@clothingsite.b0csd.mongodb.net/siteData?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://admin:xijnyt-Zavca0-hixhec@clothingsite.b0csd.mongodb.net/siteData?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 4000;
 const app = express();
 
