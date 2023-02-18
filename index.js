@@ -14,7 +14,15 @@ app.get('/', (req, res) => {
 async function sendData(res, type) {
     try {
         let productData = await client.db("siteData").collection("products").find({ productType: type }).toArray();
-        res.send(productData);
+        // Allow all origins
+        res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Credentials': true
+        });
+        res.end(JSON.stringify(productData));
     } catch (e) {
         console.error(e);
     }
@@ -25,7 +33,7 @@ client.connect(err => {
         console.log(err)
     } else {
         app.get('/:productType', (req, res) => {
-            sendData(res, req.params.productType)
+            sendData(res, req.params.productType);
         });
     }
 });
